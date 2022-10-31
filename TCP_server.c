@@ -15,6 +15,14 @@ nc -tv 8080 (any port for server)
 ps - all
 netstat -ano
 */
+
+
+char checkMessage(char clientWord[]){
+
+}
+
+
+
 void main()
 {
     struct sockaddr_in server;
@@ -85,6 +93,8 @@ void main()
             }
             // msg[strcspn(msg, "\n")] = 0;
             printf("Message from client: %s \n", msg);
+
+            
             // Actual game logic after receiving message
             if(strcmp(msg, list) == 0){
                 while (fgets((currentLine), sizeof(currentLine), dictionary) != NULL)
@@ -93,12 +103,12 @@ void main()
             } 
                 printf("Continue on this game of life!\n");
             }
-            // else if(strcmp(msg, set) == 0){
-            //     char secondWord[10];
+            else if(strcmp(msg, set) == 0){
+                char secondWord[10];
 
-            //     recv(client_sock, secondWord, sizeof(secondWord)-1,0);
-            //     printf("Second Word on Server:%s", secondWord);
-            // }
+                recv(client_sock, secondWord, sizeof(secondWord)-1,0);
+                printf("Second Word on Server:%s", secondWord);
+            }
             /*
             Conditions:
             1.) Word cannot be longer than 25 bytes

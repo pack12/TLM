@@ -89,13 +89,64 @@ void main2(){
         printf("SecondWordnp:%s", p);
 }
 
+
+void pointers2(){
+    char *welcome_msg;
+    
+    char msg[250] = ("Welcome to the server \n"
+                   "Type the following: \n"
+                   "LIST: Get all the current words in dictionary with current substring \n"
+                   "SET: Set the substring. \n"
+                   "SUBMIT: Submit word to server and see if it exists in dictionary \n"
+                   "QUIT: End the game and get your score! \n"
+                   "\n");
+    welcome_msg = msg;
+    char *newMSG;
+    newMSG = strtok(msg, "\n");
+    printf("%s", msg);
+    printf("Memory address of welcome_msg:%p\n", &msg);
+    printf("Memory address of welcome_msg pointer: %p\n", &welcome_msg);
+    // printf("PROMPT: \n%s", welcome_msg);
+    printf("PROMPT:%s", newMSG);               
+}
+
+
+int isAlphaTest(char secondWord[]){
+
+for(int i = 0; i < strlen(secondWord); i++){
+    char *checkL = &secondWord[i];
+    printf("%s", checkL);
+    if (isalpha(secondWord[i]) == 0){
+        // printf("\n%c is not a symbol",checkL[i]);
+        printf("\n%c is not a symbol", secondWord[i]);
+        return 0;
+    }
+}
+
+return 1;
+
+}
 int main(){
 
-    main2();
+    char send_msg[15];
+    memset(send_msg, 0x00, sizeof(send_msg));
+    printf("\nType a command: \n");
+    fgets(send_msg, sizeof(send_msg), stdin);   
 
-    char word[4];
-    strcpy(word, "abc");
-    pointers(word);
+    
+    char *firstWord = strtok(send_msg, " ");
+     
+    printf("FirstWord:%s\n", firstWord);
+    char *secondWord = strtok(NULL, " ");
+    printf("SecondWord:%s\n", secondWord);
+    
+
+    char setWord[15];
+    strcpy(setWord, secondWord);
+    setWord[strcspn(setWord, "\n")] = 0;
+    int checkSymbol = isAlphaTest(setWord);
+    printf("\n1 means good, 2 means sh*t%i\n", checkSymbol);
+    
     return 0;
 }
 

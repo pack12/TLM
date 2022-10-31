@@ -45,6 +45,18 @@ char *getSecondWord(char command[]){
     return secondWord;
 }
 
+int isSecondAlpha(char secondWord[]){
+for(int i = 0; i < strlen(secondWord); i++){
+    char *checkL = &secondWord[i];
+    printf("%s", checkL);
+    if (isalpha(secondWord[i]) == 0){
+        // printf("\n%c is not a symbol",checkL[i]);
+        printf("\n%c is not a symbol", secondWord[i]);
+        return 0;
+    }
+}
+}
+
 void main()
 {
     char send_msg[50];
@@ -76,6 +88,14 @@ void main()
     char *welcome_msg;
     welcome_msg = ("Welcome to the server \n"
                    "Type the following: \n"
+                   "LIST: Get all the current words in dictionary with current substring \n"
+                   "SET: Set the substring. \n"
+                   "SUBMIT: Submit word to server and see if it exists in dictionary \n"
+                   "QUIT: End the game and get your score! \n"
+                   "\n");
+
+    char *command_lst;
+    command_lst = ("\nType the following: \n"
                    "LIST: Get all the current words in dictionary with current substring \n"
                    "SET: Set the substring. \n"
                    "SUBMIT: Submit word to server and see if it exists in dictionary \n"
@@ -132,10 +152,23 @@ void main()
             }else if(strcmp(set, send_msg) == 0)
             {       char *secondWord;
                     secondWord = getSecondWord(send_msg);
-                    
+
+                    char setWord[15];
+                    strcpy(setWord, secondWord);
+                    setWord[strcspn(setWord, "\n")] = 0;
+                    int check_symb = isSecondAlpha(setWord);
+
+                    if(strlen(secondWord) > 3 || check_symb == 0){
+                        printf("\nERROR! Too long or not apart of alphabet\n");
+                        printf("%s", command_lst);
+                        
+                    }else{
 
                     
-                    printf("We're setting the word to --%s", secondWord);
+                    printf("\nWe're setting the word to --%s", secondWord);
+                    send(sock, setWord, sizeof(setWord), 0);
+                    // send(sock, setWord, sizeof(setWord), 0);
+                    }
                     
             }
             else if(strcmp(quit, send_msg) == 0)
